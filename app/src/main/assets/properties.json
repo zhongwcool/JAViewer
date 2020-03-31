@@ -6,7 +6,7 @@
     {
       "name": "AVMOO 日本",
       "link": "https://avmask.com",
-      "legacies":[
+      "legacies": [
         "javzoo.com",
         "avmoo.xyz",
         "avmoo.net",
@@ -26,7 +26,7 @@
     {
       "name": "AVMOO 日本无码",
       "link": "https://avsox.asia",
-      "legacies":[
+      "legacies": [
         "avme.pw",
         "avsox.net",
         "javkey.com",
@@ -39,8 +39,7 @@
     {
       "name": "AVMOO 欧美",
       "link": "https://avmemo.asia",
-      "legacies":[
-    
+      "legacies": [
       ]
     }
   ]

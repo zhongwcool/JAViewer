@@ -9,6 +9,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,6 +23,7 @@ import com.karumi.dexter.listener.single.PermissionListener;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -52,6 +55,15 @@ public class StartActivity extends AppCompatActivity {
         JAViewer.HTTP_CLIENT.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
+                final Properties properties = JAViewer.parseJson(Properties.class, getStrFromAssets("properties.json"));
+                if (properties != null) {
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            handleProperties(properties);
+                        }
+                    });
+                }
             }
 
             @Override
@@ -67,6 +79,28 @@ public class StartActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    /**
+     * @return Json数据（String）
+     * @description 通过assets文件获取json数据，这里写的十分简单，没做循环判断。
+     */
+    private String getStrFromAssets(String name) {
+        String strData = null;
+        try {
+            InputStream inputStream = getAssets().open(name);
+            byte[] buf = new byte[1024 * 4];
+
+            inputStream.read(buf);
+            strData = new String(buf);
+            strData = strData.trim();
+
+        } catch (IOException e) {
+            // TODO 自动生成的 catch 块
+            e.printStackTrace();
+        }
+        Log.d("Json data", strData);
+        return strData;
     }
 
     public void handleProperties(Properties properties) {
